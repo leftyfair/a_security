@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.jafa.repository.MemberRepository">
+	<insert id="save">
+		insert into member_sec02(mno, memberId, password, email)
+		values(member_sec02_seq.nextval,#{memberId}, #{password}, #{email})
+	</insert>
+	
+	<select id="read" resultMap="memberMap">
+		SELECT * FROM member_sec02 WHERE memberId = #{memberId}
+	</select>
+	
+	<resultMap type="com.jafa.domain.MemberVO" id="memberMap">
+		<result property="mno" column="mno"/>
+		<result property="memberId" column="memberId"/>
+		<result property="password" column="password"/>
+		<result property="email" column="email"/>
+		<result property="enabled" column="enabled"/>
+		<collection property="authList" 
+			column="memberId" 
+			javaType="java.util.ArrayList" 
+			ofType="com.jafa.domain.AuthVO"
+			select="getAuthList"/>
+	</resultMap>
+	
+	<select id="getAuthList" resultType="com.jafa.domain.AuthVO">
+		select * from member_auth2 where memberId=#{memberId} order by ordinal
+	</select>
+	
+	<!-- 관라자페이지에서 회원목록 조회-->
+	<select id="memberList" resultMap="memberMap">
+		select * from member_sec02
+	</select>
+</mapper>

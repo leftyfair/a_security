@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.jafa.repository.AuthRepository">
+	<insert id="save">
+		insert into member_auth2(memberId,memberType,ordinal)
+		values(#{memberId}, #{memberType},#{ordinal})
+	</insert>
+	
+	<delete id="remove">
+		delete from member_auth2 where memberId=#{memberId}
+	</delete>
+</mapper>
